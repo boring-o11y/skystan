@@ -1,0 +1,70 @@
+{
+    "name": "boring-o11y/skystan",
+    "description": "Larastan/PHPStan rules for queued Laravel jobs: ShouldBeUnique jobs must declare uniqueFor and (when parameterized) uniqueId, unique jobs may not be batched or bulk-dispatched, batched jobs must be Batchable and honour cancellation, and jobs holding an Eloquent model in a public property must use SerializesModels.",
+    "type": "phpstan-extension",
+    "keywords": [
+        "phpstan",
+        "larastan",
+        "static-analysis",
+        "laravel",
+        "queue",
+        "jobs",
+        "phpstan-extension",
+        "phpstan-rules"
+    ],
+    "homepage": "https://github.com/boring-o11y/skystan",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Boring Observability",
+            "email": "tech@boring-observability.dev",
+            "homepage": "https://github.com/boring-o11y"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/boring-o11y/skystan/issues",
+        "source": "https://github.com/boring-o11y/skystan"
+    },
+    "require": {
+        "php": "^8.2",
+        "nikic/php-parser": "^4.18 || ^5.0"
+    },
+    "require-dev": {
+        "phpstan/phpstan": "^2.0",
+        "phpunit/phpunit": "^10.0 || ^11.0 || ^12.0"
+    },
+    "suggest": {
+        "phpstan/phpstan": "Required to use these rules",
+        "phpstan/extension-installer": "Auto-registers extension.neon so you don't have to include it by hand",
+        "larastan/larastan": "Recommended host extension; these rules are designed to run alongside it"
+    },
+    "autoload": {
+        "psr-4": {
+            "BoringO11y\\Skystan\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "BoringO11y\\Skystan\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "phpstan": {
+            "includes": [
+                "extension.neon"
+            ]
+        }
+    },
+    "scripts": {
+        "test": "phpunit",
+        "phpstan": "phpstan analyse"
+    },
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {
+            "phpstan/extension-installer": true
+        }
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}
