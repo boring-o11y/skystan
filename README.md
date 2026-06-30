@@ -325,8 +325,15 @@ the rules are exercised without pulling in `laravel/framework`.
 
 ```sh
 composer install
-composer test
-# or: vendor/bin/phpunit
+composer test       # PHPUnit
+composer phpstan    # static analysis of the rules themselves
+```
+
+No local PHP toolchain? Run the whole suite in Docker:
+
+```sh
+docker run --rm -v "$PWD":/app -w /app composer:2 sh -c \
+  "composer install --no-interaction && vendor/bin/phpstan analyse && vendor/bin/phpunit"
 ```
 
 ## Contributing
