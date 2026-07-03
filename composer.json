@@ -1,6 +1,6 @@
 {
     "name": "boring-o11y/skystan",
-    "description": "Larastan/PHPStan rules for queued Laravel jobs: ShouldBeUnique jobs must declare uniqueFor and (when parameterized) uniqueId, unique jobs may not be batched or bulk-dispatched, batched jobs must be Batchable and honour cancellation, and jobs holding an Eloquent model in a public property must use SerializesModels.",
+    "description": "Larastan/PHPStan rules for queued Laravel jobs: ShouldBeUnique jobs must declare uniqueFor and (when parameterized) uniqueId, unique jobs may not be batched or bulk-dispatched, batched jobs must be Batchable and honour cancellation, jobs holding an Eloquent model in a public property must use SerializesModels, and jobs dispatched inside DB::transaction() must use afterCommit.",
     "type": "phpstan-extension",
     "keywords": [
         "phpstan",

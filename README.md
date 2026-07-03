@@ -5,13 +5,14 @@
 
 PHPStan / [Larastan](https://github.com/larastan/larastan) rules for **queued Laravel jobs**.
 
-Laravel's queue contracts (`ShouldBeUnique`, `Batchable`, `SerializesModels`) are
-easy to declare half-way and get subtly wrong. The failures are nasty precisely
-because they're *silent*: a uniqueness lock that never releases, distinct jobs
-collapsing into one and being dropped at dispatch, a batch that hangs forever
-"pending", heavy work running for a batch the caller already cancelled, a stale
-model rehydrated from a bloated payload. None of these throw at dispatch — they
-surface in production, in the worker, hours later.
+Laravel's queue contracts (`ShouldBeUnique`, `Batchable`, `SerializesModels`,
+`afterCommit`) are easy to declare half-way and get subtly wrong. The failures
+are nasty precisely because they're *silent*: a uniqueness lock that never
+releases, distinct jobs collapsing into one and being dropped at dispatch, a
+batch that hangs forever "pending", heavy work running for a batch the caller
+already cancelled, a stale model rehydrated from a bloated payload, a job that
+runs against rows a transaction hasn't committed yet — or rolled back. None of
+these throw at dispatch — they surface in production, in the worker, hours later.
 
 `skystan` encodes those contracts as static-analysis rules so the mistakes are
 caught in CI instead.
@@ -61,6 +62,7 @@ you can use to ignore individual findings.
 | [JobWithModelPropertyDeclaresSerializesModelsRule](#jobwithmodelpropertydeclaresserializesmodelsrule) | `boringO11ySkystan.jobSerializesModels` | Jobs with a public model property must use `SerializesModels` |
 | [BatchedJobIsBatchableRule](#batchedjobisbatchablerule) | `boringO11ySkystan.batchedJobIsBatchable` | Jobs added to `Bus::batch()` must use `Batchable` |
 | [BatchableJobChecksCancellationRule](#batchablejobcheckscancellationrule) | `boringO11ySkystan.batchableJobChecksCancellation` | `Batchable` jobs must honour batch cancellation |
+| [JobDispatchedInTransactionUsesAfterCommitRule](#jobdispatchedintransactionusesaftercommitrule) | `boringO11ySkystan.dispatchInTransactionAfterCommit` | Jobs dispatched inside `DB::transaction()` must use `afterCommit` |
 
 ---
 
@@ -292,6 +294,51 @@ class GenerateReport implements ShouldQueue
     use Batchable;
     public function middleware(): array { return [new SkipIfBatchCancelled]; }
     public function handle(): void { /* ... heavy work ... */ }
+}
+```
+
+---
+
+### JobDispatchedInTransactionUsesAfterCommitRule
+
+`boringO11ySkystan.dispatchInTransactionAfterCommit`
+
+A queued job dispatched inside a `DB::transaction(...)` closure must defer its
+dispatch until the transaction commits — either by chaining `->afterCommit()` on
+the dispatch, or by declaring `public bool $afterCommit = true;` on the job.
+
+A queued job pushed during an open transaction can be picked up by a worker
+before the transaction commits (a fast worker racing the still-open connection):
+it then loads rows that aren't visible yet and fails, or operates on half-written
+state. If the transaction rolls back, the job still runs against data that never
+existed. `afterCommit` holds the dispatch until the outermost transaction commits
+and drops it entirely on rollback.
+
+Only the `DB::transaction(Closure)` / arrow-fn form is inspected (the manual
+`beginTransaction()` … `commit()` form has no closure to bound the analysis), and
+only the chainable dispatch forms are flagged — `Job::dispatch(...)` and the
+`dispatch(new Job)` helper. Synchronous dispatch (`dispatchSync`, `dispatch_sync`)
+and the `Bus` / `Queue` facade entry points are left alone, as are non-queued
+dispatchables (which run synchronously). The rule assumes the default queue
+config — a project that enables `after_commit` globally does not need it.
+
+```php
+// flagged — may run before the row is committed, or after a rollback
+DB::transaction(function () use ($yacht) {
+    $yacht->save();
+    NotifyOwner::dispatch($yacht->id);
+});
+
+// ok — explicit afterCommit on the dispatch
+DB::transaction(function () use ($yacht) {
+    $yacht->save();
+    NotifyOwner::dispatch($yacht->id)->afterCommit();
+});
+
+// ok — the job opts in for every dispatch
+class NotifyOwner implements ShouldQueue
+{
+    public bool $afterCommit = true;
 }
 ```
 

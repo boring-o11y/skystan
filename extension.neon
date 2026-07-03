@@ -6,6 +6,8 @@ services:
     -
         class: BoringO11y\Skystan\PhpStan\BatchableReflectionDetector
     -
+        class: BoringO11y\Skystan\PhpStan\DispatchedJobReflectionDetector
+    -
         class: BoringO11y\Skystan\PhpStan\Rules\UniqueJobDeclaresUniqueForRule
         tags:
             - phpstan.rules.rule
@@ -27,5 +29,9 @@ services:
             - phpstan.rules.rule
     -
         class: BoringO11y\Skystan\PhpStan\Rules\BatchableJobChecksCancellationRule
+        tags:
+            - phpstan.rules.rule
+    -
+        class: BoringO11y\Skystan\PhpStan\Rules\JobDispatchedInTransactionUsesAfterCommitRule
         tags:
             - phpstan.rules.rule
