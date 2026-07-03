@@ -33,7 +33,7 @@ final class JobWithModelPropertyDeclaresSerializesModelsRuleTest extends RuleTes
             [__DIR__ . '/../Fixtures/PhpStan/JobWithModelPropertyWithoutSerializesModels.php'],
             [
                 [
-                    'Job BoringO11y\Skystan\Tests\Fixtures\PhpStan\JobWithModelPropertyWithoutSerializesModels holds Eloquent model in public property ($yacht) but does not use the SerializesModels trait. The model is then serialized whole onto the queue — a bloated payload rehydrated from a stale dispatch-time snapshot. Add `use Illuminate\Queue\SerializesModels;` so each model is stored as a class+id reference and reloaded fresh when the job runs.',
+                    'Job BoringO11y\Skystan\Tests\Fixtures\PhpStan\JobWithModelPropertyWithoutSerializesModels holds Eloquent model in public property ($product) but does not use the SerializesModels trait. The model is then serialized whole onto the queue — a bloated payload rehydrated from a stale dispatch-time snapshot. Add `use Illuminate\Queue\SerializesModels;` so each model is stored as a class+id reference and reloaded fresh when the job runs.',
                     7,
                 ],
             ],
@@ -46,7 +46,7 @@ final class JobWithModelPropertyDeclaresSerializesModelsRuleTest extends RuleTes
             [__DIR__ . '/../Fixtures/PhpStan/JobWithNullableModelPropertyWithoutSerializesModels.php'],
             [
                 [
-                    'Job BoringO11y\Skystan\Tests\Fixtures\PhpStan\JobWithNullableModelPropertyWithoutSerializesModels holds Eloquent model in public property ($yacht) but does not use the SerializesModels trait. The model is then serialized whole onto the queue — a bloated payload rehydrated from a stale dispatch-time snapshot. Add `use Illuminate\Queue\SerializesModels;` so each model is stored as a class+id reference and reloaded fresh when the job runs.',
+                    'Job BoringO11y\Skystan\Tests\Fixtures\PhpStan\JobWithNullableModelPropertyWithoutSerializesModels holds Eloquent model in public property ($product) but does not use the SerializesModels trait. The model is then serialized whole onto the queue — a bloated payload rehydrated from a stale dispatch-time snapshot. Add `use Illuminate\Queue\SerializesModels;` so each model is stored as a class+id reference and reloaded fresh when the job runs.',
                     7,
                 ],
             ],
@@ -60,7 +60,7 @@ final class JobWithModelPropertyDeclaresSerializesModelsRuleTest extends RuleTes
             [__DIR__ . '/../Fixtures/PhpStan/JobWithMultipleModelPropertiesWithoutSerializesModels.php'],
             [
                 [
-                    'Job BoringO11y\Skystan\Tests\Fixtures\PhpStan\JobWithMultipleModelPropertiesWithoutSerializesModels holds Eloquent models in public properties ($yacht, $replacement) but does not use the SerializesModels trait. The model is then serialized whole onto the queue — a bloated payload rehydrated from a stale dispatch-time snapshot. Add `use Illuminate\Queue\SerializesModels;` so each model is stored as a class+id reference and reloaded fresh when the job runs.',
+                    'Job BoringO11y\Skystan\Tests\Fixtures\PhpStan\JobWithMultipleModelPropertiesWithoutSerializesModels holds Eloquent models in public properties ($product, $replacement) but does not use the SerializesModels trait. The model is then serialized whole onto the queue — a bloated payload rehydrated from a stale dispatch-time snapshot. Add `use Illuminate\Queue\SerializesModels;` so each model is stored as a class+id reference and reloaded fresh when the job runs.',
                     7,
                 ],
             ],

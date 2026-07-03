@@ -6,7 +6,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 
 class JobWithoutModelProperty implements ShouldQueue
 {
-    public int $yachtId;
+    public int $productId;
 
     public string $reason = '';
 

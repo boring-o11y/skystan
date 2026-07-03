@@ -9,7 +9,7 @@ class JobWithModelPropertyWithSerializesModels implements ShouldQueue
 {
     use SerializesModels;
 
-    public Yacht $yacht;
+    public Product $product;
 
     public function handle(): void {}
 }

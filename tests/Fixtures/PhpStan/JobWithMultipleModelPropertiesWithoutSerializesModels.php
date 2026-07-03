@@ -7,8 +7,8 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 class JobWithMultipleModelPropertiesWithoutSerializesModels implements ShouldQueue
 {
     public function __construct(
-        public Yacht $yacht,
-        public ?Yacht $replacement,
+        public Product $product,
+        public ?Product $replacement,
         public int $companyId,
     ) {}
 

@@ -6,7 +6,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 
 abstract class AbstractJobWithModelProperty implements ShouldQueue
 {
-    public Yacht $yacht;
+    public Product $product;
 
     abstract public function handle(): void;
 }

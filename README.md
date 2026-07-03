@@ -113,7 +113,7 @@ Laravel builds the lock key as `laravel_unique_job:<class>:<uniqueId>` and falls
 back to an empty `uniqueId` when neither is declared
 (`Illuminate\Bus\UniqueLock::getKey`). For a parameterized job the empty key
 collapses *every* dispatch into one unique job regardless of its arguments, so
-legitimately-distinct jobs (per-company, per-yacht, …) are silently dropped at
+legitimately-distinct jobs (per-company, per-product, …) are silently dropped at
 dispatch with no error — a lost-work failure that's harder to spot than a leaked
 lock.
 
@@ -324,15 +324,15 @@ config — a project that enables `after_commit` globally does not need it.
 
 ```php
 // flagged — may run before the row is committed, or after a rollback
-DB::transaction(function () use ($yacht) {
-    $yacht->save();
-    NotifyOwner::dispatch($yacht->id);
+DB::transaction(function () use ($product) {
+    $product->save();
+    NotifyOwner::dispatch($product->id);
 });
 
 // ok — explicit afterCommit on the dispatch
-DB::transaction(function () use ($yacht) {
-    $yacht->save();
-    NotifyOwner::dispatch($yacht->id)->afterCommit();
+DB::transaction(function () use ($product) {
+    $product->save();
+    NotifyOwner::dispatch($product->id)->afterCommit();
 });
 
 // ok — the job opts in for every dispatch

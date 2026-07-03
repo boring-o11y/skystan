@@ -6,7 +6,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 
 class JobWithModelPropertyWithoutSerializesModels implements ShouldQueue
 {
-    public Yacht $yacht;
+    public Product $product;
 
     public function handle(): void {}
 }

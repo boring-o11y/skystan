@@ -23,7 +23,7 @@ use BoringO11y\Skystan\PhpStan\ShouldBeUniqueReflectionDetector;
  * when neither is declared (see Illuminate\Bus\UniqueLock::getKey). For a job
  * that carries no distinguishing state that empty key is correct — the class is
  * a singleton, only one may run at a time. But for a job whose constructor takes
- * arguments (per-company, per-yacht, …) the empty key collapses *every* dispatch
+ * arguments (per-company, per-product, …) the empty key collapses *every* dispatch
  * into one unique job regardless of those arguments, so legitimately-distinct
  * jobs are silently dropped at dispatch with no error. That lost-work failure is
  * harder to spot than a leaked lock.

@@ -6,7 +6,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 
 class JobWithProtectedModelProperty implements ShouldQueue
 {
-    protected Yacht $yacht;
+    protected Product $product;
 
     public function handle(): void {}
 }

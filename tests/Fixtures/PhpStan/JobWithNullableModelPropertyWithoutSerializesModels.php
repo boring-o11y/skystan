@@ -6,7 +6,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 
 class JobWithNullableModelPropertyWithoutSerializesModels implements ShouldQueue
 {
-    public ?Yacht $yacht = null;
+    public ?Product $product = null;
 
     public function handle(): void {}
 }
